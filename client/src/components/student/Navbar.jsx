@@ -35,7 +35,7 @@ const Navbar = () => {
               <button>Become Educator</button>
             | <Link to='/my-enrollments'>My Enrollments</Link>
             </>
-            }
+          }
           </div>
           {
             user ? <UserButton/> : 
