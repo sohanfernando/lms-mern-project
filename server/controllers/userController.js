@@ -131,7 +131,7 @@ export const getUserCourseProgress = async (req, res) => {
 }
 
 // Add User Ratings to Course
-export const addUserRatings = async (req, res) => {
+export const addUserRating = async (req, res) => {
     const userId = req.auth.userId;
     const { courseId, rating } = req.body;
 
