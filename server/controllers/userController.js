@@ -14,7 +14,7 @@ export const getUserData = async (req, res) => {
             return res.json({ success: false, message: 'User Not Found'})
         }
 
-        req.json({ success: true, user })
+        res.json({ success: true, user })
     } catch (error) {
         res.json({ success: false, message: error.message })
     }
@@ -37,8 +37,8 @@ export const userEnrolledCourses = async (req, res) => {
 export const purchaseCourse = async (req, res) => {
     try {
         const { courseId } = req.body
-        const  { origin } = req.headers
-        const userId= req.auth.userId
+        const { origin } = req.headers
+        const userId = req.auth.userId
         const userData = await User.findById(userId)
         const courseData = await Course.findById(courseId)
 
@@ -89,7 +89,7 @@ export const purchaseCourse = async (req, res) => {
 }
 
 // Update User Course Progress
-export const updateUserCourseProgress = async (res, req) => {
+export const updateUserCourseProgress = async (req, res) => {
     try {
         const userId = req.auth.userId
         const { courseId, lectureId } = req.body
@@ -110,7 +110,7 @@ export const updateUserCourseProgress = async (res, req) => {
             })
         }
 
-        res.json({ success_url: true, message: 'Progress Updated' })
+        res.json({ success: true, message: 'Progress Updated' })
 
     } catch (error) {
         res.json({ success: false, message: error.message })
@@ -142,7 +142,7 @@ export const addUserRating = async (req, res) => {
     try {
         const course = await Course.findById(courseId);
 
-        if(!courseId){
+        if(!course){
             return res.json({ success: false, message: 'Course not Found.' })
         }
 

@@ -23,7 +23,6 @@ export const updateRoleToEducator = async (req, res) => {
 }
 
 // Add new Course
-
 export const addCourse = async (req, res) => {
     try {
         const { courseData } = req.body
@@ -50,18 +49,17 @@ export const addCourse = async (req, res) => {
 // Get Educator Courses
 export const getEducatorCourses = async (req, res) => {
     try {
-        const userId = req.auth.userId
-
+        const educator = req.auth.userId
         const courses = await Course.find({educator})
         res.json({ success: true, courses })
+
     } catch (error) {
         res.json({ success: false, message: error.message })
     }
 }
 
 // Get Educator Dashboard Data ( Total Earning, Enrolled Students, No of courses)
-
-export const educatorDashboardData = async () => {
+export const educatorDashboardData = async (req, res) => {
     try {
         const educator = req.auth.userId;
         const courses = await Course.find({educator});
@@ -88,8 +86,8 @@ export const educatorDashboardData = async () => {
                 enrolledStudentsData.push({
                     courseTitle: course.courseTitle,
                     student
-                })
-            })
+                });
+            });
         }
 
         res.json({success: true, dashboardData: {
@@ -97,7 +95,7 @@ export const educatorDashboardData = async () => {
         }})
 
     } catch (error) {
-        
+        res.json({ success: false, message: error.message })
     }
 }
 
@@ -109,7 +107,7 @@ export const getEnrolledStudentsData = async (req, res) => {
         const courseIds = courses.map(course => course._id);
 
         const purchases = await Purchase.find({
-            courseId: { $in: courseIds},
+            courseId: { $in: courseIds },
             status: 'completed'
         }).populate('userId', 'name imageUrl').populate('courseId', 'courseTitle')
 
